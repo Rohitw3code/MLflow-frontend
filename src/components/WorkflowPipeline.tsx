@@ -89,7 +89,7 @@ function WorkflowStepComponent({
     <div className="relative">
       <button
         onClick={onClick}
-        className={`w-full flex items-start p-4 space-x-4 transition-colors ${
+        className={`w-full flex items-start p-4 space-x-2 transition-colors ${
           isActive 
             ? 'bg-purple-600/20 border-r-2 border-purple-600' 
             : 'hover:bg-white/5'
@@ -105,7 +105,7 @@ function WorkflowStepComponent({
           {icon}
         </div>
         <div className="flex-1 text-left">
-          <h3 className={`font-medium ${isActive ? 'text-white' : 'text-gray-300'}`}>
+          <h3 className={`font-medium text-sm ${isActive ? 'text-white' : 'text-gray-300'}`}>
             {title}
           </h3>
           <p className="text-sm text-gray-400">{description}</p>
@@ -147,7 +147,7 @@ export function WorkflowPipeline() {
     };
   }, [isOpen]);
 
-  if (!isOpen) return null; // Hide the component if closed
+  // if (!isOpen) return null; // Hide the component if closed
 
   return (
     <div ref={pipelineRef} className="fixed inset-y-0 left-64 w-72 bg-slate-800 z-40">

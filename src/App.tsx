@@ -5,13 +5,19 @@ import { Features } from './components/Features';
 import { SideNav } from './components/SideNav';
 import { DashboardNav } from './components/DashboardNav';
 import { Dashboard } from './components/Dashboard';
+import { DataScience } from './Tools/DataScience'
 
 export function App() {
   const [showDashboard, setShowDashboard] = React.useState(false);
   const [showMobileMenu, setShowMobileMenu] = React.useState(false);
+  const [activeSection, setActiveSection] = React.useState<string | null>('dashboard'); // New state for active section
 
   const handleStartClick = () => {
     setShowDashboard(true);
+  };
+
+  const handleSectionChange = (section: string | null) => {
+    setActiveSection(section);
   };
 
   return (
@@ -23,8 +29,11 @@ export function App() {
             <SideNav 
               isOpen={showMobileMenu} 
               onClose={() => setShowMobileMenu(false)} 
+              onSectionChange={handleSectionChange} // Pass the handler
             />
-              <Dashboard />
+            {activeSection === 'dashboard' && <Dashboard />}
+            {activeSection === 'data-science' && <DataScience />}
+            {/* Add more sections here as needed */}
           </div>
         </>
       ) : (
@@ -40,4 +49,4 @@ export function App() {
   );
 }
 
-export default App;  
+export default App;

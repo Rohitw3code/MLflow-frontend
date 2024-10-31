@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { ChevronLeft, LayoutDashboard, Brain, Cog, Camera, Plus, User, Users, FolderOpen } from 'lucide-react';
-import { WorkflowPipeline } from './WorkflowPipeline';
+import { WorkflowPipeline } from './WorkflowPipeline';; // Import if needed
 
 interface NavItemProps {
   icon: React.ReactNode;
@@ -13,11 +13,10 @@ function NavItem({ icon, text, active = false, onClick }: NavItemProps) {
   return (
     <button
       onClick={onClick}
-      className={`w-full flex items-center px-4 py-3 text-sm ${
-        active
+      className={`w-full flex items-center px-4 py-3 text-sm ${active
           ? 'text-white bg-purple-600/20 border-r-2 border-purple-600'
           : 'text-gray-400 hover:text-white hover:bg-white/5'
-      } transition-colors`}
+        } transition-colors`}
     >
       <div className="flex items-center space-x-2">
         {icon}
@@ -30,14 +29,16 @@ function NavItem({ icon, text, active = false, onClick }: NavItemProps) {
 interface SideNavProps {
   isOpen: boolean;
   onClose: () => void;
+  onSectionChange: (section: string | null) => void; // Add this prop
 }
 
-export function SideNav({ isOpen, onClose }: SideNavProps) {
+export function SideNav({ isOpen, onClose, onSectionChange }: SideNavProps) {
   const [activeSection, setActiveSection] = useState<string | null>(null);
   const sideNavRef = useRef<HTMLDivElement>(null);
 
   const handleSectionClick = (section: string) => {
-    setActiveSection(activeSection === section ? null : section);
+    setActiveSection(section);
+    onSectionChange(section); // Notify parent component about the section change
     onClose(); // Close the side nav when a section is clicked
   };
 
@@ -61,7 +62,7 @@ export function SideNav({ isOpen, onClose }: SideNavProps) {
         <div className="h-full flex flex-col">
           <div className="p-4 flex items-center justify-between border-b border-gray-700">
             <h2 className="text-white font-semibold">Tools</h2>
-            <button 
+            <button
               onClick={onClose} // Close the side nav when clicked
               className="text-gray-400 hover:text-white"
             >
@@ -87,27 +88,33 @@ export function SideNav({ isOpen, onClose }: SideNavProps) {
           </div>
 
           <nav className="flex-1 mt-2">
-            <NavItem 
-              icon={<LayoutDashboard size={18} />} 
-              text="Data Science" 
+            <NavItem
+              icon={<LayoutDashboard size={18} />}
+              text="Dashboard"
+              active={activeSection === 'dashboard'}
+              onClick={() => handleSectionClick('dashboard')}
+            />
+            <NavItem
+              icon={<LayoutDashboard size={18} />}
+              text="Data Science"
               active={activeSection === 'data-science'}
               onClick={() => handleSectionClick('data-science')}
             />
-            <NavItem 
-              icon={<Brain size={18} />} 
-              text="Deep Learning" 
+            <NavItem
+              icon={<Brain size={18} />}
+              text="Deep Learning"
               active={activeSection === 'deep-learning'}
               onClick={() => handleSectionClick('deep-learning')}
             />
-            <NavItem 
-              icon={<Cog size={18} />} 
-              text="Fine-Tuning" 
+            <NavItem
+              icon={<Cog size={18} />}
+              text="Fine-Tuning"
               active={activeSection === 'fine-tuning'}
               onClick={() => handleSectionClick('fine-tuning')}
             />
-            <NavItem 
-              icon={<Camera size={18} />} 
-              text="Computer Vision" 
+            <NavItem
+              icon={<Camera size={18} />}
+              text="Computer Vision"
               active={activeSection === 'computer-vision'}
               onClick={() => handleSectionClick('computer-vision')}
             />
